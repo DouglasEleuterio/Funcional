@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory >
+		<!-- Não deixe de usar o prefixo java:/comp/env/, pois assim você aponta 
+			para o Global JNDI namespace do servidor de aplicação onde fica registrado 
+			o nome de seu recurso. -->
+		<!-- estamos informando ao Hibernate que seu meio de conexão com o banco 
+			de dados é pelo nosso recurso configurado anteriormente. (context.xml) -->
+		<property name="connection.datasource">java:/comp/env/jdbc/myimage</property>
+
+		<!-- Cria as tabelas caso não existam -->
+		<property name="hibernate.hbm2ddl.auto">create</property>
+
+		<!-- A configuração da linha 9 permite que o Hibernate crie uma sessão 
+			para o contexto atual. Isso será muito importante para manter uma sessão 
+			aberta por meio de um filtro durante um request. -->
+		<property name="current_session_context_class">thread</property>
+
+		<!-- Dialeto do Banco -->
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+		<!-- Driver de conexão com o banco -->
+		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+
+		<!-- Exibir o Log de comandos enviado por meio do Hibernate para o banco -->
+		<property name="show_sql">true</property>
+
+		<!-- estamos informando ao Hibernate que não há necessidade de procurar 
+			meta-informações em nosso banco de dados. Essa configuração evita o disparo 
+			de algumas exceções. -->
+		<property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
+		
+		<!-- Mapeamento das classes de entidades -->
+		<mapping class="com.funcional.model.User"/> 
+        <mapping class="com.funcional.model.Profile"/> 
+		
+	</session-factory>
+</hibernate-configuration>
